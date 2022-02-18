@@ -8,7 +8,7 @@ description: Experience the legendary Los Santos Cops and Robbers. Jobs, gangs, 
 tasks:
   #  Download Base Files
   - action: download_github
-    src: https://github.com/MatiasMunk/lscnr/Recipe
+    src: https://github.com/MatiasMunk/lscnr
     ref: master
     dest: ./tmp/cnr
 
@@ -57,25 +57,33 @@ tasks:
     src: https://github.com/qbcore-framework/connectqueue
     
   - action: download_github
-    dest: ./resources/[qb]/qb-clothing
+    dest: ./resources/[cnr]/cnr-clothing
     ref: main
     src: https://github.com/qbcore-framework/qb-clothing
     
   # Downloading CNR resources
-  - action: download_github
-    dest: ./resources/[cnr]/cnr-core
-    ref: main
-    src: https://github.com/MatiasMunk/lscnr/cnr-core
+  - action: download_file
+    url: https://github.com/MatiasMunk/lscnr/raw/master/cnr-core-admin-loading.zip
+    path: ./tmp/cnr-core-admin-loading.zip
+  
+  - action: unzip
+    src: ./tmp/cnr-core-admin-loading.zip
+    dest: ./tmp
     
-  - action: download_github
-    dest: ./resources/[cnr]/cnr-adminmenu
-    ref: main
-    src: https://github.com/MatiasMunk/lscnr/cnr-adminmenu
+  - action: move_path
+    src: ./tmp/cnr-core
+    dest: ./resources/[cnr]/
+    overwrite: true
     
-  - action: download_github
-    dest: ./resources/[cnr]/cnr-loadingscreen
-    ref: main
-    src: https://github.com/MatiasMunk/lscnr/cnr-loadingscreen
+  - action: move_path
+    src: ./tmp/cnr-adminmenu
+    dest: ./resources/[cnr]/
+    overwrite: true
+    
+  - action: move_path
+    src: ./tmp/cnr-loadingscreen
+    dest: ./resources/[cnr]/
+    overwrite: true
 
   # Clean up
   - action: remove_path
