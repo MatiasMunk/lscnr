@@ -1,0 +1,82 @@
+$engine: 3
+$onesync: on
+name: Cops and Robbers
+version: 1.0.0
+author: MatiasMunk
+description: Experience the legendary Los Santos Cops and Robbers. Jobs, gangs, housing & more.
+
+tasks:
+  #  Download Base Files
+  - action: download_github
+    src: https://github.com/MatiasMunk/lscnr/Recipe
+    ref: master
+    dest: ./tmp/cnr
+
+  - action: move_path
+    src: ./tmp/cnr/server.cfg
+    dest: ./server.cfg
+
+  - action: move_path
+    src: ./tmp/cnr/myLogo.png
+    dest: ./myLogo.png
+
+  # Prepare Database
+  - action: connect_database
+  - action: query_database
+    file: ./tmp/cnr/cnr.sql
+
+  # STANDALONE
+  - action: download_github
+    src: https://github.com/citizenfx/cfx-server-data
+    ref: master
+    subpath: resources
+    dest: ./resources/[cfx-default]
+    
+  - action: download_file
+    path: ./tmp/files/oxmysql-1.9.3.zip
+    url: https://github.com/overextended/oxmysql/releases/download/v1.9.3/oxmysql-v1.9.3.zip
+  - action: unzip
+    dest: ./resources/[standalone]
+    src: ./tmp/files/oxmysql-1.9.3.zip
+
+  - action: download_file
+    path: ./tmp/menuv.zip
+    url: https://github.com/ThymonA/menuv/releases/download/v1.4.1/menuv_v1.4.1.zip
+  - action: unzip
+    dest: ./resources/[standalone]/menuv
+    src: ./tmp/menuv.zip
+    
+  - action: download_github
+    dest: ./resources/[standalone]/progressbar
+    ref: main
+    src: https://github.com/qbcore-framework/progressbar
+    
+  - action: download_github
+    dest: ./resources/[standalone]/connectqueue
+    ref: master
+    src: https://github.com/qbcore-framework/connectqueue
+    
+  - action: download_github
+    dest: ./resources/[qb]/qb-clothing
+    ref: main
+    src: https://github.com/qbcore-framework/qb-clothing
+    
+  # Downloading CNR resources
+  - action: download_github
+    dest: ./resources/[cnr]/cnr-core
+    ref: main
+    src: https://github.com/MatiasMunk/lscnr/cnr-core
+    
+  - action: download_github
+    dest: ./resources/[cnr]/cnr-adminmenu
+    ref: main
+    src: https://github.com/MatiasMunk/lscnr/cnr-adminmenu
+    
+  - action: download_github
+    dest: ./resources/[cnr]/cnr-loadingscreen
+    ref: main
+    src: https://github.com/MatiasMunk/lscnr/cnr-loadingscreen
+
+  # Clean up
+  - action: remove_path
+    path: ./tmp
